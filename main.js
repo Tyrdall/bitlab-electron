@@ -1,32 +1,65 @@
-'use strict'
-
-// Mod of Electron
 const electron = require('electron')
-
-// Module that controls the application
+// Module to control application life.
 const app = electron.app
-
-// Module to create window
+// Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+let path = require('path')
 
-// Global declaration so that main window is not GC
-var mainWindow
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow
 
-// Close all windows closed
+function createWindow() {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: 1281,
+    height: 800,
+    minWidth: 1281,
+    minHeight: 800,
+    // frame: false,
+    titleBarStyle: 'hidden',
+    backgroundColor: '#333333',
+    show: false,
+    icon: path.join(__dirname, 'assets/img/64x64.png')
+  })
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(`file://${__dirname}/app/index.html`)
+
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools()
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function() {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null
+  })
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
+// Quit when all windows are closed.
 app.on('window-all-closed', function() {
-  if (process.platform != 'darwin') {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-// Execute after completion of initialization of Electron
-app.on('ready', function() {
-  // Main screen display. You can specify the width and height of the window
-  mainWindow = new BrowserWindow({ width: 800, height: 600 })
-  mainWindow.loadURL('file://' + __dirname + '/app/index.html')
-
-  // Close the application when the window is closed
-  mainWindow.on('closed', function() {
-    mainWindow = null
-  })
+app.on('activate', function() {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
+  }
 })
