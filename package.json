@@ -5,7 +5,8 @@
   "description": "Test project.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "asar-osx": "electron-packager . --overwrite --platform=darwin --asar=true --arch=x64 --icon=app/assets/img/1024x1024.png.icns --prune=true --out=release-builds",
+    "dmg": "electron-installer-dmg ./release-builds/Bitlab\\ Studio\\ Electron\\ Test\\ App-darwin-x64/Bitlab\\ Studio\\ Electron\\ Test\\ App.app bitlab-studio-electron-test --out=release-builds --overwrite --icon=app/assets/img/1024x1024.png.icns"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/Tyrdall/bitlab-electron#readme",
   "devDependencies": {
     "electron": "^1.7.12",
+    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^10.1.2"
   }
 }

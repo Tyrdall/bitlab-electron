@@ -1,4 +1,5 @@
 const electron = require('electron')
+const { ipcMain } = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -8,6 +9,7 @@ let path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let infoWindow
 
 function createWindow() {
   // Create the browser window.
@@ -20,7 +22,15 @@ function createWindow() {
     titleBarStyle: 'hidden',
     backgroundColor: '#333333',
     show: false,
-    icon: path.join(__dirname, 'assets/img/64x64.png')
+    icon: path.join(__dirname, 'app/assets/img/64x64.png')
+  })
+
+  ipcMain.on('open-info-window', (e)=> {
+    infoWindow.show()
+  })
+
+  ipcMain.on('close-info-window', (e)=> {
+    infoWindow.hide()
   })
 
   mainWindow.once('ready-to-show', () => {
@@ -30,8 +40,19 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/app/index.html`)
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  // Init second window
+  infoWindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    minWidth: 400,
+    minHeight: 400,
+    frame: false,
+    backgroundColor: '#333333',
+    show: false,
+    parent: mainWindow,
+    icon: path.join(__dirname, 'app/assets/img/64x64.png')
+  })
+  infoWindow.loadURL(`file://${__dirname}/app/windows/info.html`)
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -39,7 +60,10 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
+    infoWindow = null
   })
+
+  require(path.join(__dirname, 'app/assets/js/mainmenu.js'))
 }
 
 // This method will be called when Electron has finished

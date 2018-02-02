@@ -1,6 +1,6 @@
-(window.navigation = window.navigation || {}),
+;(window.navigation = window.navigation || {}),
   (function(n) {
-    navigation.menu = {
+    let navigation = {
       constants: {
         sectionTemplate: '.section-template',
         contentContainer: '#content',
@@ -12,11 +12,11 @@
         const links = document.querySelectorAll('link[rel="import"]')
         Array.prototype.forEach.call(links, function(link) {
           let template = link.import.querySelector(
-            navigation.menu.constants.sectionTemplate
+            navigation.constants.sectionTemplate
           )
           let clone = document.importNode(template.content, true)
           document
-            .querySelector(navigation.menu.constants.contentContainer)
+            .querySelector(navigation.constants.contentContainer)
             .appendChild(clone)
         })
       },
@@ -24,8 +24,8 @@
       setMenuOnClickEvent: function() {
         document.body.addEventListener('click', function(event) {
           if (event.target.dataset.section) {
-            navigation.menu.hideAllSections()
-            navigation.menu.showSection(event)
+            navigation.hideAllSections()
+            navigation.showSection(event)
           }
         })
       },
@@ -54,6 +54,6 @@
     }
 
     n(function() {
-      navigation.menu.init()
+      navigation.init()
     })
   })(jQuery)

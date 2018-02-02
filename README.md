@@ -12,7 +12,8 @@ You can use the Chromium dev tools to debug.
 
 ### OSX
 
-    electron-packager . --overwrite --platform=darwin --arch=x64 --icon=app/assets/img/1024x1024.png.icns --prune=true --out=release-builds
+    npm run asar-osx
+    npm run dmg
 
 ## How it was created
 

@@ -13,13 +13,14 @@
   <link rel="import" href="sections/welcome.html">
   <link rel="import" href="sections/contact.html">
 </head>
-<body class="layout-switch">
+<body>
 <section id="sidebar">
   <div class="inner">
     <nav>
       <ul>
         <li><a id="welcome-menu" data-section="welcome" href="#">Welcome</a></li>
         <li><a data-section="contact" href="#">Get in touch</a></li>
+        <li><a id="open-info-window" href="#">Learn more</a></li>
       </ul>
     </nav>
   </div>
@@ -28,5 +29,6 @@
 
 <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
 <script>require('./assets/js/menu')</script>
+<script>require('./assets/js/ipc')</script>
 </body>
 </html>

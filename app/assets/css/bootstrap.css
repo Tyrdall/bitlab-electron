@@ -5999,3 +5999,9 @@ img {
 #contact {
   padding: 10px 50px;
 }
+#info {
+  text-align: center;
+  padding: 20px 50px;
+  background: #ffffff;
+  color: #333333;
+}
